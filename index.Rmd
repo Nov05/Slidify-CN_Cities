@@ -1,0 +1,47 @@
+---
+title       : Developing Data Products Week 3 Assignment
+subtitle    : Major Cities in China
+author      : Wenjing Liu
+job         : November 22, 2018
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE)
+```
+
+Top 50 Largest Cities by Population in China
+
+```{r message=FALSE, warning=FALSE, echo=FALSE, cache=FALSE, results='asis', fig.align='center'}
+library(plotly)
+cities <- readRDS("D:/R/data/cn_cities.rds")
+cities <- cities[1:50,]
+
+geo <- list(
+  scope = 'asia',
+  projection = list(type = 'Mercator'),
+  showland = TRUE,
+  landcolor = toRGB("gray85"),
+  countrycolor = toRGB("white"),
+  subunitcolor = toRGB("white"),
+  countrywidth = 1,
+  subunitwidth = 1)
+
+p <- plot_geo(cities, 
+              locationmode='CHN', 
+              sizes=c(1, 200)) %>% 
+     add_markers(x=~lng, y=~lat, 
+                 size=~sqrt(population),
+                 hoverinfo="text", 
+                 text=~paste(city, "<br />", population)) %>%
+     layout(title='', 
+            geo=geo)
+
+htmlwidgets::saveWidget(as_widget(p), "p.html")
+cat('<iframe src="./p.html" width=100% height=100% allowtransparency="true"> </iframe>')
+```
