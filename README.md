@@ -2,7 +2,7 @@
 
 The R Slidify representation contains two pages, one cover page and one page with a Plotly interactive map. 
 
-You can click the **"Page Up/Down"** key (or **Arrow** key) to go to the previous/next page.
+You can click the **Page Up/Down** key (or **Arrow** key) to go to the previous/next page.
 
 Visit the page here: https://nov05.github.io/Slidify-CN_Cities/
 
