@@ -43,5 +43,5 @@ p <- plot_geo(cities,
             geo=geo)
 
 htmlwidgets::saveWidget(as_widget(p), "p.html")
-cat('<iframe src="./p.html" width=100% height=100% allowtransparency="true"> </iframe>')
+cat('<iframe src="./p.html" width=100% height=100% allowtransparency="true"></iframe>')
 ```
