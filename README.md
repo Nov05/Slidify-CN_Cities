@@ -10,7 +10,7 @@ Visit the page here: https://nov05.github.io/Slidify-CN_Cities/
 
 ### Notes
 
-It took me tremendous effort to solve two major issues:
+It took me tremendous time to solve two major issues:
 
 1. The representation wasn't able to display the Plotly map. Rather, a black map was displayed. I referred to **[this post]( https://stackoverflow.com/questions/34860207/adjust-the-size-of-plotly-charts-in-slidify)** to solve this issue. The key is to contain the map as a widget on the htmal page. I added the following code to my RMarkdown file.
 ```
