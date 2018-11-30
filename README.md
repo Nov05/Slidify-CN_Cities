@@ -22,7 +22,7 @@ cat('<iframe src="./p.html" width=100% height=100% allowtransparency="true"> </i
 ```
 publish(user = "Nov05", repo = "Slidify-CN_Cities")
 ```
-I referred to **[this post](https://stackoverflow.com/questions/23145621/how-to-publish-pages-on-github)** to solve this one. Basically I moved the local project folder to another directory, then use git command to clone the empty Github project to recreate the local project folder, then push the files/folders that I wanted to upload to Github into that folder, and push the new added files to Github.
+I referred to **[this post](https://stackoverflow.com/questions/23145621/how-to-publish-pages-on-github)** to solve this one. Basically I moved the local project folder to another directory, then used git command to clone the empty Github project to recreate the local project folder, then moved the files/folders that I wanted to upload to Github back into that folder, and pushed the new added files to Github.
 
   
 
