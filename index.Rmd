@@ -15,7 +15,7 @@ knit        : slidify::knit2slides
 knitr::opts_chunk$set(echo=FALSE)
 ```
 
-##  Top 100 Largest Cities by Population in China (plotly)
+###  Top 100 Largest Cities by Population in China (plotly)
 
 ```{r message=FALSE, warning=FALSE, echo=FALSE, cache=FALSE, results='asis', fig.align='center'}
 library(plotly)

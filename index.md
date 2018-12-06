@@ -13,7 +13,7 @@ knit        : slidify::knit2slides
 
 
 
-##  Top 100 Largest Cities by Population in China (plotly)
+###  Top 100 Largest Cities by Population in China (plotly)
 
 <iframe src="./p.html" width=100% height=100% allowtransparency="true"></iframe>
 
