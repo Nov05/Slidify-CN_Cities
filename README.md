@@ -1,6 +1,6 @@
 # Slidify-CN_Cities
 
-The R Slidify representation contains two pages, one cover page and one page with a Plotly interactive map. 
+The R Slidify representation contains 8 pages, 1 cover page, 1 page with a Plotly interactive map and 6 text pages.
 
 You can click the **Page Up/Down** key (or **Arrow** key) to go to the previous/next page.
 
