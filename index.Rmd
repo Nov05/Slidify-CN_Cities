@@ -15,7 +15,9 @@ knit        : slidify::knit2slides
 knitr::opts_chunk$set(echo=FALSE)
 ```
 
-###  Top 100 Largest Cities by Population in China (plotly)
+# Top 100 Largest Cities by Population in China
+
+(Illustrated in R Plotly)
 
 ```{r message=FALSE, warning=FALSE, echo=FALSE, cache=FALSE, results='asis', fig.align='center'}
 library(plotly)
@@ -129,8 +131,16 @@ shinyApp(ui, server)
 library(shiny); runGitHub( "Shiny-CN_Cities", "Nov05")
 ```
 
-<br>
+<br><br><br><br><br><br>
 
-# Thank you for reviewing the assignment!
+Slidify files: https://github.com/Nov05/Slidify-CN_Cities/tree/gh-pages
+
+Shiny files: https://github.com/Nov05/Shiny-CN_Cities
+
+---
+
+<br><br><br><br><br><br><br>
+
+## Thank you for reviewing the assignment!
 
 
