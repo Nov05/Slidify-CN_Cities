@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Developing Data Products Week 3 Assignment</title>
+  <title>Developing Data Products Assignment</title>
   <meta charset="utf-8">
-  <meta name="description" content="Developing Data Products Week 3 Assignment">
+  <meta name="description" content="Developing Data Products Assignment">
   <meta name="author" content="Wenjing Liu">
   <meta name="generator" content="slidify" />
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -32,9 +32,9 @@
     <!-- LOGO SLIDE -->
         <slide class="title-slide segue nobackground">
   <hgroup class="auto-fadein">
-    <h1>Developing Data Products Week 3 Assignment</h1>
+    <h1>Developing Data Products Assignment</h1>
     <h2>Major Cities in China</h2>
-    <p>Wenjing Liu<br/>November 22, 2018</p>
+    <p>Wenjing Liu<br/>November 22, 2018 (Updated on December 12, 2018)</p>
   </hgroup>
   <article></article>  
 </slide>
@@ -42,10 +42,138 @@
 
     <!-- SLIDES -->
     <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Top 100 Largest Cities by Population in China (plotly)</h2>
+  </hgroup>
   <article data-timings="">
-    <p>Top 50 Largest Cities by Population in China</p>
+    <iframe src="./p.html" width=100% height=100% allowtransparency="true"></iframe>
 
-<iframe src="./p.html" width=100% height=100% allowtransparency="true"></iframe>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Load data</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Data Source: <a href="https://simplemaps.com/data/cn-cities">https://simplemaps.com/data/cn-cities</a></p>
+
+<pre><code class="r">cities &lt;- read.csv(&quot;D:/R/data/cn_cities.csv&quot;, 
+                   header=TRUE, 
+                   #colClasses=&quot;character&quot;,
+                   strip.white=FALSE,
+                   stringsAsFactors=FALSE, 
+                   na.strings=c(&quot;NA&quot;, &quot;NaN&quot;, &quot;N/A&quot;, &quot;&quot;, &quot;#VALUE!&quot;, &quot;#DIV/0!&quot;),
+                   encoding=&#39;UTF-8&#39;)
+dim(cities)
+</code></pre>
+
+<pre><code>## [1] 2187    9
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Sort data by population size descending</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">cities &lt;- cities[order(-cities$population),]
+head(cities)
+</code></pre>
+
+<pre><code>##        city      lat      lng country iso2     admin capital population
+## 1  Shanghai 31.22222 121.4581   China   CN  Shanghai   admin   14987000
+## 2   Beijing 39.92882 116.3889   China   CN   Beijing primary   11106000
+## 3 Guangzhou 23.11667 113.2500   China   CN Guangdong   admin    8829000
+## 4  Shenzhen 22.53333 114.1333   China   CN Guangdong   minor    7581000
+## 5     Wuhan 30.58333 114.2667   China   CN     Hubei   admin    7243000
+## 6   Tianjin 39.14222 117.1767   China   CN   Tianjin   admin    7180000
+##   population_proper
+## 1          14608512
+## 2           7480601
+## 3           3152825
+## 4           1002592
+## 5           4184206
+## 6           3766207
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Save dataset as RDS file, use it in a Shiny app</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>app.R (Part 1)</p>
+
+<pre><code class="r">library(shiny); library(leaflet)
+cities &lt;- readRDS(&quot;cn_cities.rds&quot;); cities &lt;- cities[1:100,]
+
+ui &lt;- fluidPage(
+    titlePanel(&quot;Top 100 Largest Cities by Population in China&quot;),
+    sidebarLayout(
+        sidebarPanel(
+            strong(&quot;Display the largest cities ranked by population in China.&quot;), p(),
+            em(&quot;E.g. Set the slider at value (1,10), then the top 10 largest cities will be displayed. The areas of the circles represent the relative sizes of the city populations.&quot;), p(),
+            sliderInput(&quot;ui_range&quot;, 
+                        label = &quot;Range of ranks:&quot;,
+                        min = 1, max = nrow(cities), value = c(1, nrow(cities)))),
+    mainPanel(leafletOutput(&quot;ui_map&quot;))))
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  <article data-timings="">
+    <p>app.R (Part 2)</p>
+
+<pre><code class="r">server &lt;- function(input, output, session) {
+    filteredData &lt;- reactive({cities[input$ui_range[1]:input$ui_range[2],]
+    }) 
+    output$ui_map &lt;- renderLeaflet({
+        cities %&gt;% leaflet() %&gt;% addTiles() %&gt;% 
+            fitBounds(~min(lng), ~min(lat), ~max(lng), ~max(lat))
+    })
+    observe({
+      leafletProxy(&quot;ui_map&quot;, data=filteredData()) %&gt;%
+        clearShapes() %&gt;%
+        addCircles(weight=1, color=&quot;#49b2b2&quot;, radius=~sqrt(population)*50)
+    })
+}
+
+shinyApp(ui, server)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>Deploy the app on Shinyapps.io or Github</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><br></p>
+
+<ol>
+<li><p>You can visit the app online at <a href="https://wenjing.shinyapps.io/app-cn-cities/">https://wenjing.shinyapps.io/app-cn-cities/</a></p></li>
+<li><p>Or launch it in your RStudio by running the following code.</p></li>
+</ol>
+
+<pre><code class="r">library(shiny); runGitHub( &quot;Shiny-CN_Cities&quot;, &quot;Nov05&quot;)
+</code></pre>
+
+<p><br></p>
+
+<h1>Thank you for reviewing the assignment!</h1>
 
   </article>
   <!-- Presenter Notes -->
@@ -57,8 +185,38 @@
     <ul>
       <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=1 title='NA'>
+        data-slide=1 title='Top 100 Largest Cities by Population in China (plotly)'>
          1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Load data'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Sort data by population size descending'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Save dataset as RDS file, use it in a Shiny app'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='NA'>
+         5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='Deploy the app on Shinyapps.io or Github'>
+         6
       </a>
     </li>
   </ul>
